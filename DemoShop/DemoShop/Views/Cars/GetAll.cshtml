@@ -1,0 +1,10 @@
+﻿<h1>All cars</h1>
+<h3>@Model.CurrentCategory</h3>
+<div class="row mt-3 mb-2">
+    @{
+        foreach (Car car in Model.Cars)
+        {
+            @Html.Partial("AllCars", car)
+        }
+    }
+</div>
