@@ -1,5 +1,5 @@
-﻿using System;
-using DIPClassLibrary;
+﻿using DIPClassLibrary.Interfaces;
+using System;
 
 namespace ConsoleUI
 {
@@ -7,19 +7,17 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            Person person = new Person()
-            {
-                FirstName = "Jack",
-                LastName = "Jones",
-                EmailAddress = "testaddress@mail.ru",
-                PhoneNumber = "8029101223"
-            };
+            IPerson person = Factory.CreatePerson();
 
-            Chore chore = new Chore()
-            {
-                ChoreName = "Take out the trash",
-                Owner = person
-            };
+            person.FirstName = "Jack";
+            person.LastName = "Jones";
+            person.EmailAddress = "testaddress@mail.ru";
+            person.PhoneNumber = "8029101223";
+
+            IChore chore = Factory.CreateChore();
+
+            chore.ChoreName = "Take out the trash";
+            chore.Owner = person;
 
             chore.PerformedWork(3);
             chore.PerformedWork(1.5);

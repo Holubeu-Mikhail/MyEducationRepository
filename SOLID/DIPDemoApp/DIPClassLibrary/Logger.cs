@@ -1,8 +1,9 @@
 ﻿using System;
+using DIPClassLibrary.Interfaces;
 
 namespace DIPClassLibrary
 {
-    public class Logger
+    public class Logger : ILogger
     {
         public void Log(string message)
         {

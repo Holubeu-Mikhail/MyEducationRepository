@@ -1,6 +1,8 @@
-﻿namespace DIPClassLibrary
+﻿using DIPClassLibrary.Interfaces;
+
+namespace DIPClassLibrary
 {
-    public class Person
+    public class Person : IPerson
     {
         public string FirstName { get; set; }
 

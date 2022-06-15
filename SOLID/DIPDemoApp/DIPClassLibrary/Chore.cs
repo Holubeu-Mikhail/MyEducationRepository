@@ -1,31 +1,40 @@
-﻿namespace DIPClassLibrary
+﻿using DIPClassLibrary.Interfaces;
+
+namespace DIPClassLibrary
 {
-    public class Chore
+    public class Chore : IChore
     {
+        private ILogger _logger;
+        private IMessageSender _messageSender;
+
         public string ChoreName { get; set; }
 
-        public Person Owner { get; set; }
+        public IPerson Owner { get; set; }
 
         public double HoursWorked { get; set; }
 
         public bool IsComplete { get; set; }
 
+        public Chore(ILogger logger, IMessageSender messageSender)
+        {
+            _logger = logger;
+            _messageSender = messageSender;
+        }
+
         public void PerformedWork(double hours)
         {
             HoursWorked += hours;
-            Logger logger = new Logger();
-            logger.Log($"Performed work on {ChoreName}");
+
+            _logger.Log($"Performed work on {ChoreName}");
         }
 
         public void CompleteChore()
         {
             IsComplete = true;
-
-            Logger logger = new Logger();
-            logger.Log($"Completed {ChoreName}");
-
-            Emailer emailer = new Emailer();
-            emailer.SendEmail(Owner, $"The chore {ChoreName} is completed");
+            
+            _logger.Log($"Completed {ChoreName}");
+            
+            _messageSender.SendMessage(Owner, $"The chore {ChoreName} is completed");
         }
     }
 }
