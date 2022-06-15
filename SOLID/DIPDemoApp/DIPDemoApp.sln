@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "DIPDemoApp\ConsoleUI.csproj", "{2E01B473-8FAA-48C3-BAFA-4944B9D15472}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIPClassLibrary", "DIPClassLibrary\DIPClassLibrary.csproj", "{00ABF5B7-ECC2-428A-AC4B-5818AB055B5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E01B473-8FAA-48C3-BAFA-4944B9D15472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E01B473-8FAA-48C3-BAFA-4944B9D15472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E01B473-8FAA-48C3-BAFA-4944B9D15472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E01B473-8FAA-48C3-BAFA-4944B9D15472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00ABF5B7-ECC2-428A-AC4B-5818AB055B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00ABF5B7-ECC2-428A-AC4B-5818AB055B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00ABF5B7-ECC2-428A-AC4B-5818AB055B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00ABF5B7-ECC2-428A-AC4B-5818AB055B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {338F9DF8-D994-4F70-943B-66DCFA180308}
+	EndGlobalSection
+EndGlobal
