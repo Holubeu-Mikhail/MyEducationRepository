@@ -6,31 +6,21 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            StandardMessages.OutputWelcomeMessage();
 
-            Person user = new Person();
+            var user = PersonDataCapture.Capture();
 
-            Console.WriteLine("Enter your first name:");
-            user.FirstName = Console.ReadLine();
+            var isUserValid = PersonValidator.Validate(user);
 
-            Console.WriteLine("Enter your last name:");
-            user.LastName = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(user.FirstName))
+            if (!isUserValid)
             {
-                Console.WriteLine("Wrong first name");
-                Console.ReadLine();
+                StandardMessages.EndApplication();
                 return;
             }
+            
+            AccountGenerator.CreateAccount(user);
 
-            if (string.IsNullOrEmpty(user.LastName))
-            {
-                Console.WriteLine("Wrong last name");
-                Console.ReadLine();
-                return;
-            }
-
-            Console.WriteLine($"Your username is {user.FirstName.Substring(0, 1).ToLower()}{user.LastName.ToLower()}");
+            StandardMessages.EndApplication();
         }
     }
 }
