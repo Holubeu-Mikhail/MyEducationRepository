@@ -11,8 +11,8 @@ namespace ConsoleUI
             var applicants = new List<Person>()
             {
                 new Person { FirstName = "Mike", LastName = "Johnson" },
-                new Person { FirstName = "Vito", LastName = "Cruise" },
-                new Person { FirstName = "Tim", LastName = "Storm" }
+                new Person { FirstName = "Vito", LastName = "Cruise", TypeOfEmployee = EmployeeType.Manager },
+                new Person { FirstName = "Tim", LastName = "Storm", TypeOfEmployee = EmployeeType.Executive }
             };
 
             var employees = new List<Employee>();
@@ -25,7 +25,7 @@ namespace ConsoleUI
 
             foreach (var employee in employees)
             {
-                Console.WriteLine($"{employee.FirstName} {employee.LastName}: {employee.Email}");
+                Console.WriteLine($"{employee.FirstName} {employee.LastName}: {employee.Email}\nIs manager: {employee.IsManager}; Is executive: {employee.IsExecutive}\n");
             }
         }
     }
