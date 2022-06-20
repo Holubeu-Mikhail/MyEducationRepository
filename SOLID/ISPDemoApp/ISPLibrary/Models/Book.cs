@@ -3,7 +3,7 @@ using System;
 
 namespace ISPLibrary.Models
 {
-    public class Book : ILibraryItem
+    public class Book : IBorrowableBook
     {
         public string LibraryId { get; set; }
 
