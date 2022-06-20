@@ -1,5 +1,6 @@
 ﻿using System;
-using LSPLibrary;
+using LSPLibrary.Interfaces;
+using LSPLibrary.Models;
 
 namespace ConsoleUI
 {
@@ -7,16 +8,16 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            var manager = new Manager();
+            IManager manager = new CEO();
 
             manager.FirstName = "Joe";
             manager.LastName = "Black";
             manager.CalculatePerHourRate(4);
 
-            var employee = new Employee();
+            IManaged employee = new Manager();
 
             employee.FirstName = "Mike";
-            employee.LastName = "Mike";
+            employee.LastName = "Vendor";
             employee.AssignManager(manager);
             employee.CalculatePerHourRate(2);
 
