@@ -1,9 +1,28 @@
-﻿namespace WPF_MVVM_HotelReservation.Models
+﻿using System.Collections.Generic;
+
+namespace WPF_MVVM_HotelReservation.Models
 {
     public class Hotel
     {
-        public string Name { get; set; }
+        private readonly ReservationBook _reservationBook;
 
-        public ReservationBook ReservationBook { get; set; }
+        public string Name { get; }
+
+        public Hotel(string name)
+        {
+            Name = name;
+            _reservationBook = new ReservationBook();
+        }
+
+        public IEnumerable<Reservation> GetAllReservations()
+        {
+            var result = _reservationBook.GetAllReservations();
+            return result;
+        }
+
+        public void AddReservation(Reservation reservation)
+        {
+            _reservationBook.AddReservation(reservation);
+        }
     }
 }
