@@ -5,33 +5,58 @@ using System.Windows.Input;
 using WPF_MVVM_HotelReservation.Commands;
 using WPF_MVVM_HotelReservation.Models;
 using WPF_MVVM_HotelReservation.Services;
+using WPF_MVVM_HotelReservation.Stores;
 
 namespace WPF_MVVM_HotelReservation.ViewModels
 {
     public class ReservationListingViewModel : BaseViewModel
     {
-        private readonly Hotel _hotel;
         private readonly ObservableCollection<ReservationViewModel> _reservations;
+        private readonly HotelStore _hotelStore;
 
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
 
+        public ICommand LoadReservationsCommand { get; }
+
         public ICommand MakeReservationCommand { get; }
 
-        public ReservationListingViewModel(Hotel hotel, NavigationService makeReservationNavigationService)
+        public ReservationListingViewModel(HotelStore hotelStore, NavigationService makeReservationNavigationService)
         {
-            _hotel = hotel;
             _reservations = new ObservableCollection<ReservationViewModel>();
+            _hotelStore = hotelStore;
 
+            LoadReservationsCommand = new LoadReservationsCommand(this, hotelStore);
             MakeReservationCommand = new NavigateCommand(makeReservationNavigationService);
 
-            UpdateReservations();
+            _hotelStore.ReservationMade += OnReservationMade;
         }
 
-        private void UpdateReservations()
+        public override void Dispose()
+        {
+            _hotelStore.ReservationMade -= OnReservationMade;
+            base.Dispose();
+        }
+
+        private void OnReservationMade(Reservation reservation)
+        {
+            ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
+            _reservations.Add(reservationViewModel);
+        }
+
+        public static ReservationListingViewModel LoadViewModel(HotelStore hotelStore, NavigationService makeReservationNavigationService)
+        {
+            ReservationListingViewModel viewModel = new ReservationListingViewModel(hotelStore, makeReservationNavigationService);
+
+            viewModel.LoadReservationsCommand.Execute(null);
+
+            return viewModel;
+        }
+
+        public void UpdateReservations(IEnumerable<Reservation> reservations)
         {
             _reservations.Clear();
 
-            foreach (Reservation reservation in _hotel.GetAllReservations())
+            foreach (Reservation reservation in reservations)
             {
                 ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
                 _reservations.Add(reservationViewModel);

@@ -12,5 +12,10 @@ namespace WPF_MVVM_HotelReservation.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public virtual void Dispose()
+        {
+
+        }
     }
 }

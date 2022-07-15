@@ -1,21 +1,24 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using WPF_MVVM_HotelReservation.Exceptions;
 using WPF_MVVM_HotelReservation.Models;
 using WPF_MVVM_HotelReservation.Services;
+using WPF_MVVM_HotelReservation.Stores;
 using WPF_MVVM_HotelReservation.ViewModels;
 
 namespace WPF_MVVM_HotelReservation.Commands
 {
-    public class MakeReservationCommand : BaseCommand
+    public class MakeReservationCommand : BaseCommandAsync
     {
-        private readonly Hotel _hotel;
+        private readonly HotelStore _hotelStore;
         private readonly MakeReservationViewModel _makeReservationViewModel;
         private readonly NavigationService _reservationListingViewNavigationService;
 
-        public MakeReservationCommand(MakeReservationViewModel makeReservationViewModel, Hotel hotel, NavigationService reservationListingViewNavigationService)
+        public MakeReservationCommand(MakeReservationViewModel makeReservationViewModel, HotelStore hotelStore, NavigationService reservationListingViewNavigationService)
         {
-            _hotel = hotel;
+            _hotelStore = hotelStore;
             _makeReservationViewModel = makeReservationViewModel;
             _reservationListingViewNavigationService = reservationListingViewNavigationService;
 
@@ -36,7 +39,7 @@ namespace WPF_MVVM_HotelReservation.Commands
             return !string.IsNullOrEmpty(_makeReservationViewModel.Username) && base.CanExecute(parameter);
         }
 
-        public override void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             var reservation = new Reservation(
                 new RoomId(_makeReservationViewModel.FloorNumber, _makeReservationViewModel.RoomNumber),
@@ -46,7 +49,7 @@ namespace WPF_MVVM_HotelReservation.Commands
 
             try
             {
-                _hotel.AddReservation(reservation);
+                await _hotelStore.MakeReservation(reservation);
                 MessageBox.Show("Successfully reserved room.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 _reservationListingViewNavigationService.Navigate();
@@ -54,6 +57,10 @@ namespace WPF_MVVM_HotelReservation.Commands
             catch (ReservationConflictException)
             {
                 MessageBox.Show("This room is already taken.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);     
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to make reservation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

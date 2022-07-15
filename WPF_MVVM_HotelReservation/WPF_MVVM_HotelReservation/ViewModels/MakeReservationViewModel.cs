@@ -83,9 +83,9 @@ namespace WPF_MVVM_HotelReservation.ViewModels
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public MakeReservationViewModel(Hotel hotel, NavigationService reservationListingViewNavigationService)
+        public MakeReservationViewModel(HotelStore hotelStore, NavigationService reservationListingViewNavigationService)
         {
-            SubmitCommand = new MakeReservationCommand(this, hotel, reservationListingViewNavigationService);
+            SubmitCommand = new MakeReservationCommand(this, hotelStore, reservationListingViewNavigationService);
             CancelCommand = new NavigateCommand(reservationListingViewNavigationService);
         }
     }

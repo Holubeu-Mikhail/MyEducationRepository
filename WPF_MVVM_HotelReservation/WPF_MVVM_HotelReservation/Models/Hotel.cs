@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WPF_MVVM_HotelReservation.Models
 {
@@ -8,21 +9,20 @@ namespace WPF_MVVM_HotelReservation.Models
 
         public string Name { get; }
 
-        public Hotel(string name)
+        public Hotel(string name, ReservationBook reservationBook)
         {
             Name = name;
-            _reservationBook = new ReservationBook();
+            _reservationBook = reservationBook;
         }
 
-        public IEnumerable<Reservation> GetAllReservations()
+        public async Task<IEnumerable<Reservation>> GetAllReservations()
         {
-            var result = _reservationBook.GetAllReservations();
-            return result;
+            return await _reservationBook.GetAllReservations();
         }
 
-        public void AddReservation(Reservation reservation)
+        public async Task MakeReservation(Reservation reservation)
         {
-            _reservationBook.AddReservation(reservation);
+            await _reservationBook.MakeReservation(reservation);
         }
     }
 }
