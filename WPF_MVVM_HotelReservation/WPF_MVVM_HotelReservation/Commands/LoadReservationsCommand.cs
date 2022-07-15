@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using WPF_MVVM_HotelReservation.Models;
 using WPF_MVVM_HotelReservation.Stores;
 using WPF_MVVM_HotelReservation.ViewModels;
 
@@ -19,6 +20,9 @@ namespace WPF_MVVM_HotelReservation.Commands
 
         public async override Task ExecuteAsync(object parameter)
         {
+            _viewModel.ErrorMessage = string.Empty;
+            _viewModel.IsLoading = true;
+
             try
             {
                 await _hotelStore.Load();
@@ -27,8 +31,9 @@ namespace WPF_MVVM_HotelReservation.Commands
             }
             catch (Exception)
             {
-                MessageBox.Show("Failed to load reservations", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _viewModel.ErrorMessage = "Failed to load reservations.";
             }
+            _viewModel.IsLoading = false;
         }
     }
 }

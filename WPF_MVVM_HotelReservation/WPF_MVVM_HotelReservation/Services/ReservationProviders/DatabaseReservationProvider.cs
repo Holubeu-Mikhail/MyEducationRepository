@@ -22,6 +22,8 @@ namespace WPF_MVVM_HotelReservation.Services.ReservationProviders
             using HotelReservationDbContext context = _dbContextFactory.CreateDbContext();
             IEnumerable<ReservationDto> reservationDtos = await context.Reservations.ToListAsync();
 
+            await Task.Delay(2000);
+
             return reservationDtos.Select(r => MapToReservation(r));
         }
 
