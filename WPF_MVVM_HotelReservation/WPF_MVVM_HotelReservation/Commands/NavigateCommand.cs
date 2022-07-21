@@ -1,12 +1,13 @@
 ﻿using WPF_MVVM_HotelReservation.Services;
+using WPF_MVVM_HotelReservation.ViewModels;
 
 namespace WPF_MVVM_HotelReservation.Commands
 {
-    public class NavigateCommand : BaseCommand
+    public class NavigateCommand<T> : BaseCommand where T : BaseViewModel
     {
-        private readonly NavigationService _navigationService;
+        private readonly NavigationService<T> _navigationService;
 
-        public NavigateCommand(NavigationService navigationService)
+        public NavigateCommand(NavigationService<T> navigationService)
         {
             _navigationService = navigationService;
         }

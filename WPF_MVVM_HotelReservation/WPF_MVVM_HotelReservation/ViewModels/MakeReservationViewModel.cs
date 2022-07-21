@@ -120,10 +120,10 @@ namespace WPF_MVVM_HotelReservation.ViewModels
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        public MakeReservationViewModel(HotelStore hotelStore, NavigationService reservationListingViewNavigationService)
+        public MakeReservationViewModel(HotelStore hotelStore, NavigationService<ReservationListingViewModel> reservationListingViewNavigationService)
         {
             SubmitCommand = new MakeReservationCommand(this, hotelStore, reservationListingViewNavigationService);
-            CancelCommand = new NavigateCommand(reservationListingViewNavigationService);
+            CancelCommand = new NavigateCommand<ReservationListingViewModel>(reservationListingViewNavigationService);
 
             _propertyNameToErrorsDictionary = new Dictionary<string, List<string>>();
         }

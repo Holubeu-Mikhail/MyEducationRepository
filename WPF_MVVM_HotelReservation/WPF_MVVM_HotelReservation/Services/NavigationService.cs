@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WPF_MVVM_HotelReservation.Stores;
 using WPF_MVVM_HotelReservation.ViewModels;
 
 namespace WPF_MVVM_HotelReservation.Services
 {
-    public class NavigationService
+    public class NavigationService<T> where T : BaseViewModel
     {
         private readonly NavigationStore _navigationStore;
-        private readonly Func<BaseViewModel> _createViewModel;
+        private readonly Func<T> _createViewModel;
 
-        public NavigationService(NavigationStore navigationStore, Func<BaseViewModel> createViewModel)
+        public NavigationService(NavigationStore navigationStore, Func<T> createViewModel)
         {
             _navigationStore = navigationStore;
             _createViewModel = createViewModel;

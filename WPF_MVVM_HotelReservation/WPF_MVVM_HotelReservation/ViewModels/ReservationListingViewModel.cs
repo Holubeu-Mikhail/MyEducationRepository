@@ -55,13 +55,13 @@ namespace WPF_MVVM_HotelReservation.ViewModels
 
         public ICommand MakeReservationCommand { get; }
 
-        public ReservationListingViewModel(HotelStore hotelStore, NavigationService makeReservationNavigationService)
+        public ReservationListingViewModel(HotelStore hotelStore, NavigationService<MakeReservationViewModel> makeReservationNavigationService)
         {
             _reservations = new ObservableCollection<ReservationViewModel>();
             _hotelStore = hotelStore;
 
             LoadReservationsCommand = new LoadReservationsCommand(this, hotelStore);
-            MakeReservationCommand = new NavigateCommand(makeReservationNavigationService);
+            MakeReservationCommand = new NavigateCommand<MakeReservationViewModel>(makeReservationNavigationService);
 
             _hotelStore.ReservationMade += OnReservationMade;
         }
@@ -78,7 +78,7 @@ namespace WPF_MVVM_HotelReservation.ViewModels
             _reservations.Add(reservationViewModel);
         }
 
-        public static ReservationListingViewModel LoadViewModel(HotelStore hotelStore, NavigationService makeReservationNavigationService)
+        public static ReservationListingViewModel LoadViewModel(HotelStore hotelStore, NavigationService<MakeReservationViewModel> makeReservationNavigationService)
         {
             ReservationListingViewModel viewModel = new ReservationListingViewModel(hotelStore, makeReservationNavigationService);
 
