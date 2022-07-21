@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows.Input;
 using WPF_MVVM_HotelReservation.Commands;
 using WPF_MVVM_HotelReservation.Models;
@@ -11,15 +12,15 @@ namespace WPF_MVVM_HotelReservation.ViewModels
 {
     public class ReservationListingViewModel : BaseViewModel
     {
-        private readonly ObservableCollection<ReservationViewModel> _reservations;
         private readonly HotelStore _hotelStore;
 
-        private bool _isLoading;
+        private readonly ObservableCollection<ReservationViewModel> _reservations;
 
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
 
-        private string _errorMessage;
+        public bool HasReservations => _reservations.Any();
 
+        private string _errorMessage;
         public string ErrorMessage
         {
             get
@@ -37,42 +38,42 @@ namespace WPF_MVVM_HotelReservation.ViewModels
 
         public bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
+        private bool _isLoading;
         public bool IsLoading
         {
             get
             {
                 return _isLoading;
             }
-            set 
-            { 
+            set
+            {
                 _isLoading = value;
                 OnPropertyChanged(nameof(IsLoading));
             }
         }
 
-
         public ICommand LoadReservationsCommand { get; }
-
         public ICommand MakeReservationCommand { get; }
 
         public ReservationListingViewModel(HotelStore hotelStore, NavigationService<MakeReservationViewModel> makeReservationNavigationService)
         {
-            _reservations = new ObservableCollection<ReservationViewModel>();
             _hotelStore = hotelStore;
+            _reservations = new ObservableCollection<ReservationViewModel>();
 
             LoadReservationsCommand = new LoadReservationsCommand(this, hotelStore);
             MakeReservationCommand = new NavigateCommand<MakeReservationViewModel>(makeReservationNavigationService);
 
-            _hotelStore.ReservationMade += OnReservationMade;
+            _hotelStore.ReservationMade += OnReservationMode;
+            _reservations.CollectionChanged += OnReservationsChanged;
         }
 
         public override void Dispose()
         {
-            _hotelStore.ReservationMade -= OnReservationMade;
+            _hotelStore.ReservationMade -= OnReservationMode;
             base.Dispose();
         }
 
-        private void OnReservationMade(Reservation reservation)
+        private void OnReservationMode(Reservation reservation)
         {
             ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
             _reservations.Add(reservationViewModel);
@@ -96,6 +97,11 @@ namespace WPF_MVVM_HotelReservation.ViewModels
                 ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
                 _reservations.Add(reservationViewModel);
             }
+        }
+
+        private void OnReservationsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(HasReservations));
         }
     }
 }

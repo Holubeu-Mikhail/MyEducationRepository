@@ -12,36 +12,32 @@ namespace WPF_MVVM_HotelReservation.Commands
 {
     public class MakeReservationCommand : BaseCommandAsync
     {
-        private readonly HotelStore _hotelStore;
         private readonly MakeReservationViewModel _makeReservationViewModel;
-        private readonly NavigationService<ReservationListingViewModel> _reservationListingViewNavigationService;
+        private readonly HotelStore _hotelStore;
+        private readonly NavigationService<ReservationListingViewModel> _reservationViewNavigationService;
 
-        public MakeReservationCommand(MakeReservationViewModel makeReservationViewModel, HotelStore hotelStore, NavigationService<ReservationListingViewModel> reservationListingViewNavigationService)
+        public MakeReservationCommand(MakeReservationViewModel makeReservationViewModel,
+            HotelStore hotelStore,
+            NavigationService<ReservationListingViewModel> reservationViewNavigationService)
         {
-            _hotelStore = hotelStore;
             _makeReservationViewModel = makeReservationViewModel;
-            _reservationListingViewNavigationService = reservationListingViewNavigationService;
+            _hotelStore = hotelStore;
+            _reservationViewNavigationService = reservationViewNavigationService;
 
             _makeReservationViewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
-        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(MakeReservationViewModel.Username) || 
-                e.PropertyName == nameof(MakeReservationViewModel.FloorNumber))
-            {
-                OnCanExecutedChanged();
-            }
-        }
-
         public override bool CanExecute(object parameter)
         {
-            return !string.IsNullOrEmpty(_makeReservationViewModel.Username) && base.CanExecute(parameter);
+            return _makeReservationViewModel.CanCreateReservation && base.CanExecute(parameter);
         }
 
         public override async Task ExecuteAsync(object parameter)
         {
-            var reservation = new Reservation(
+            _makeReservationViewModel.SubmitErrorMessage = string.Empty;
+            _makeReservationViewModel.IsSubmitting = true;
+
+            Reservation reservation = new Reservation(
                 new RoomId(_makeReservationViewModel.FloorNumber, _makeReservationViewModel.RoomNumber),
                 _makeReservationViewModel.Username,
                 _makeReservationViewModel.StartDate,
@@ -50,17 +46,33 @@ namespace WPF_MVVM_HotelReservation.Commands
             try
             {
                 await _hotelStore.MakeReservation(reservation);
-                MessageBox.Show("Successfully reserved room.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                _reservationListingViewNavigationService.Navigate();
+                MessageBox.Show("Successfully reserved room.", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
+                _reservationViewNavigationService.Navigate();
             }
             catch (ReservationConflictException)
             {
-                MessageBox.Show("This room is already taken.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);     
+                _makeReservationViewModel.SubmitErrorMessage = "This room is already taken on those dates.";
+            }
+            catch (InvalidReservationTimeRangeException)
+            {
+                _makeReservationViewModel.SubmitErrorMessage = "Start date must be before end date.";
             }
             catch (Exception)
             {
-                MessageBox.Show("Failed to make reservation", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _makeReservationViewModel.SubmitErrorMessage = "Failed to make reservation.";
+            }
+
+            _makeReservationViewModel.IsSubmitting = false;
+        }
+
+        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(MakeReservationViewModel.CanCreateReservation))
+            {
+                OnCanExecutedChanged();
             }
         }
     }
