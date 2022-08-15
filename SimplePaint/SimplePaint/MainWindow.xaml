@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimplePaint"
         mc:Ignorable="d"
-        Title="SimplePaint" Height="450" Width="800">
+        Title="SimplePaint" Height="450" Width="799.9" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid Background="#FFFFE1E2">
-        <Canvas x:Name="Canvas" Margin="68,46,10,10" Background="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"/>
+        <Canvas x:Name="Picture" Margin="68,46,10,10" Background="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" MouseMove="Canvas_MouseMove" Width="722" Height="378"/>
         <StackPanel Margin="0,46,737,0" OpacityMask="#FFCE2323">
             <Button Width="58" Height="55" OpacityMask="#FFCE2323" Background="#FFFFE1E2">
                 <Image  Source="Icons\colorpicker.png" OpacityMask="#FFCE2323"/>
@@ -36,6 +36,12 @@
             <Button Content="Save" Height="28" Width="52"/>
             <Button Content="Open" Height="28" Width="52"/>
         </DockPanel>
+
+        <StackPanel Margin="125,0,566,388">
+            <RadioButton>Small</RadioButton>
+            <RadioButton>Medium</RadioButton>
+            <RadioButton>Large</RadioButton>
+        </StackPanel>
 
     </Grid>
 </Window>
