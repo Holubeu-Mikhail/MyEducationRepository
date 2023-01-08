@@ -1,6 +1,6 @@
 ﻿namespace Task2_EduInstitution
 {
-    internal class EducationalInstitution : IDisposable
+    internal class EducationalInstitution
     {
         public static string Minister;
 
@@ -67,11 +67,6 @@
         public override string ToString()
         {
             return $"{InstitutionType} called {Name} was founded in {FoundationYear}\nCurrent Minister of Education is {Minister}\n";
-        }
-
-        public void Dispose()
-        {
-            Console.WriteLine("Object was disposed");
         }
 
         ~EducationalInstitution()
