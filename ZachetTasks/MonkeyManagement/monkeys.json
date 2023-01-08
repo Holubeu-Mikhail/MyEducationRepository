@@ -1,0 +1,25 @@
+{
+  "Monkeys": [
+    {
+      "Name": "John",
+      "Type": "macaque",
+      "Weight": 35.5,
+      "BananasAte": 10,
+      "ImagePath": "D:\\Repositories\\MyEducationRepository\\ZachetTasks\\MonkeyManagement\\Images\\macaque.jpg"
+    },
+    {
+      "Name": "King-Kong",
+      "Type": "gorilla",
+      "Weight": 200,
+      "BananasAte": 365,
+      "ImagePath": "D:\\Repositories\\MyEducationRepository\\ZachetTasks\\MonkeyManagement\\Images\\gorilla.jpg"
+    },
+    {
+      "Name": "Charlie",
+      "Type": "pan",
+      "Weight": 41.3,
+      "BananasAte": 45,
+      "ImagePath": "D:\\Repositories\\MyEducationRepository\\ZachetTasks\\MonkeyManagement\\Images\\pan.jpg"
+    }
+  ]
+}
