@@ -5,19 +5,20 @@ using System.Text;
 
 Console.WriteLine("Ticket service");
 
-var factory = new ConnectionFactory()
-{
-    HostName = "localhost",
-    UserName = "user",
-    Password = "password",
-    VirtualHost = "/"
-};
+string exchangeName = "bookingsExchange";
+string queueName = "bookings";
+string routingKey = "bookingRoute";
+
+ConnectionFactory factory = new ConnectionFactory();
+factory.Uri = new Uri("amqp://guest:guest@localhost:5672");
+factory.ClientProvidedName = "Rabbit Receiver App";
 
 var connection = factory.CreateConnection();
-
 using var channel = connection.CreateModel();
 
-channel.QueueDeclare("bookings", durable: true, exclusive: true);
+channel.ExchangeDeclare(exchangeName, ExchangeType.Direct, false, false);
+channel.QueueDeclare(queueName, false, false, false);
+channel.QueueBind(queueName, exchangeName, routingKey);
 
 var consumer = new EventingBasicConsumer(channel);
 
@@ -31,6 +32,6 @@ consumer.Received += (model, eventArgs) =>
     Console.WriteLine($"Message has been received: {message}");
 };
 
-channel.BasicConsume("bookings", true, consumer);
+channel.BasicConsume(queueName, true, consumer);
 
 Console.ReadLine();
