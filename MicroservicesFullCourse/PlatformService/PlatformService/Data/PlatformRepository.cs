@@ -19,8 +19,6 @@ namespace PlatformService.Data
             }
             
             _context.Platforms.Add(platform);
-
-            SaveChanges();
         }
 
         public IEnumerable<Platform> GetAll()
