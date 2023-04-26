@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
+using PlatformService.SyncDataServices.Http;
 
 namespace PlatformService
 {
@@ -13,6 +14,7 @@ namespace PlatformService
 
             builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("PlatformsInMem"));
             builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
+            builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddControllers();
