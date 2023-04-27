@@ -8,6 +8,7 @@ namespace PlatformService
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("--> v2");
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
